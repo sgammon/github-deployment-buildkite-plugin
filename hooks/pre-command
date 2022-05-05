@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+source /etc/environment
+source /var/lib/buildkite-agent/.buildenv
+
 # Curl that will return non-zero exit code,
 # but still return its' response if it fails.
 # ( https://superuser.com/a/1641410/215321 )
@@ -16,8 +19,8 @@ curlf() {
   rm $OUTPUT_FILE
 }
 
-USERNAME=$(printenv ${BUILDKITE_PLUGIN_GITHUB_DEPLOYMENT_USERNAME_ENV:-"GITHUB_USERNAME"})
-TOKEN=$(printenv ${BUILDKITE_PLUGIN_GITHUB_DEPLOYMENT_TOKEN_ENV:-"GITHUB_TOKEN"})
+USERNAME="$GITHUB_USERNAME";
+TOKEN="$GITHUB_TOKEN";
 REPO_ORG=$(basename $(dirname $BUILDKITE_REPO) | sed 's/git@github.com://')
 REPO_NAME=$(basename $BUILDKITE_REPO .git)
 
